@@ -4,7 +4,7 @@ import json
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from pokemon_entities.models import Pokemon, PokemonEntity
-from django.conf import settings
+from django.utils.timezone import localtime
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -40,11 +40,12 @@ def show_all_pokemons(request):
             if pokemon.image:
                 img_url = request.build_absolute_uri(pokemon.image.url)
 
-            add_pokemon(
-                folium_map, pokemon_entity.lat,
-                pokemon_entity.lon,
-                img_url
-            )
+            if pokemon_entity.appeared_at <= localtime() <= pokemon_entity.disappeared_at:
+                add_pokemon(
+                    folium_map, pokemon_entity.lat,
+                    pokemon_entity.lon,
+                    img_url
+                )
 
     pokemons_on_page = []
 
