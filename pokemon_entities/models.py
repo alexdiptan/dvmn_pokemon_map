@@ -5,6 +5,7 @@ from django.db import models  # noqa F401
 class Pokemon(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(null=True)
+    evolution_from = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
     title_en = models.CharField(null=True, max_length=200)
     title_jp = models.CharField(null=True, max_length=200)
     image = models.ImageField(null=True)
