@@ -81,6 +81,7 @@ def show_pokemon(request, pokemon_id):
 
             pokemon_data = {
                 "title_ru": requested_pokemon.title,
+                "description": requested_pokemon.description,
                 "img_url": img_url,
             }
 
