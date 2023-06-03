@@ -1,5 +1,3 @@
-import datetime
-
 import django.utils.timezone
 from django.db import models  # noqa F401
 
