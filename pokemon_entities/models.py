@@ -12,9 +12,9 @@ class Pokemon(models.Model):
                                            related_name="next_evolution",
                                            verbose_name="Предыдущая эволюция",
                                            )
-    title_en = models.CharField(verbose_name="Имя на английском", null=True, max_length=200)
-    title_jp = models.CharField(verbose_name="Имя на японском", null=True, max_length=200)
-    image = models.ImageField(verbose_name="Картинка", null=True)
+    title_en = models.CharField(verbose_name="Имя на английском", blank=True, max_length=200)
+    title_jp = models.CharField(verbose_name="Имя на японском", blank=True, max_length=200)
+    image = models.ImageField(verbose_name="Картинка", null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -25,8 +25,8 @@ class PokemonEntity(models.Model):
                                    verbose_name="Покемон",)
     lat = models.FloatField(verbose_name="Широта",)
     lon = models.FloatField(verbose_name="Долгота",)
-    appeared_at = models.DateTimeField(verbose_name="Время появления", default=django.utils.timezone.now())
-    disappeared_at = models.DateTimeField(verbose_name="Время исчезновения", default=django.utils.timezone.now())
+    appeared_at = models.DateTimeField(verbose_name="Время появления", default=django.utils.timezone.now)
+    disappeared_at = models.DateTimeField(verbose_name="Время исчезновения", default=django.utils.timezone.now)
     level = models.IntegerField(verbose_name="Уровень", blank=True, null=True)
     health = models.IntegerField(verbose_name="Здоровье", blank=True, null=True)
     strength = models.IntegerField(verbose_name="Сила", blank=True, null=True)

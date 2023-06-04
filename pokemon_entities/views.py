@@ -70,14 +70,14 @@ def show_pokemon(request, pokemon_id):
                 "title_en": requested_pokemon.title_en,
                 "title_jp": requested_pokemon.title_jp,
                 "description": requested_pokemon.description,
-                "img_url": request.build_absolute_uri(requested_pokemon.image.url),
+                "img_url": request.build_absolute_uri(get_pokemon_image_url(requested_pokemon)),
             }
 
             if pokemon.previous_evolution is not None:
                 pokemon_data["previous_evolution"] = {
                     "title_ru": pokemon.previous_evolution.title,
                     "pokemon_id": pokemon.previous_evolution.id,
-                    "img_url": request.build_absolute_uri(pokemon.previous_evolution.image.url)
+                    "img_url": request.build_absolute_uri(get_pokemon_image_url(pokemon))
                 }
 
             if pokemon.next_evolution.all():
@@ -85,7 +85,7 @@ def show_pokemon(request, pokemon_id):
                 pokemon_data["next_evolution"] = {
                     "title_ru": next_evolution.title,
                     "pokemon_id": next_evolution.id,
-                    "img_url": request.build_absolute_uri(next_evolution.image.url)
+                    "img_url": request.build_absolute_uri(get_pokemon_image_url(next_evolution))
                 }
 
             break
@@ -98,7 +98,7 @@ def show_pokemon(request, pokemon_id):
             add_pokemon(
                 folium_map, pokemon_entity.lat,
                 pokemon_entity.lon,
-                request.build_absolute_uri(pokemon.image.url)
+                request.build_absolute_uri(get_pokemon_image_url(pokemon))
             )
 
     return render(request, 'pokemon.html', context={
