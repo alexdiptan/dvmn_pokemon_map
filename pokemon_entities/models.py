@@ -9,7 +9,7 @@ class Pokemon(models.Model):
                                            on_delete=models.CASCADE,
                                            null=True,
                                            blank=True,
-                                           related_name="next_evolution",
+                                           related_name="next_evolutions",
                                            verbose_name="Предыдущая эволюция",
                                            )
     title_en = models.CharField(verbose_name="Имя на английском", blank=True, max_length=200)

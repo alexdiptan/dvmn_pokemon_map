@@ -80,12 +80,12 @@ def show_pokemon(request, pokemon_id):
                     "img_url": request.build_absolute_uri(get_pokemon_image_url(pokemon))
                 }
 
-            if pokemon.next_evolution.all():
-                next_evolution = pokemon.next_evolution.all()[0]
+            if pokemon.next_evolutions.all():
+                next_evolutions = pokemon.next_evolutions.all()[0]
                 pokemon_data["next_evolution"] = {
-                    "title_ru": next_evolution.title,
-                    "pokemon_id": next_evolution.id,
-                    "img_url": request.build_absolute_uri(get_pokemon_image_url(next_evolution))
+                    "title_ru": next_evolutions.title,
+                    "pokemon_id": next_evolutions.id,
+                    "img_url": request.build_absolute_uri(get_pokemon_image_url(next_evolutions))
                 }
 
             break
