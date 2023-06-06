@@ -59,7 +59,6 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     pokemons = Pokemon.objects.all()
-    pokemon_entities = PokemonEntity.objects.all()
 
     for pokemon in pokemons:
         if pokemon.id == int(pokemon_id):
@@ -93,7 +92,7 @@ def show_pokemon(request, pokemon_id):
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in pokemon_entities:
+    for pokemon_entity in pokemon.entities.all():
         if pokemon_entity.appeared_at <= localtime() <= pokemon_entity.disappeared_at:
             add_pokemon(
                 folium_map, pokemon_entity.lat,
