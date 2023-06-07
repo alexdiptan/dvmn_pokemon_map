@@ -79,7 +79,7 @@ def show_pokemon(request, pokemon_id):
             }
 
         if pokemon.next_evolutions.all():
-            next_evolutions = pokemon.next_evolutions.all()[0]
+            next_evolutions = pokemon.next_evolutions.all().first()
             pokemon_data["next_evolution"] = {
                 "title_ru": next_evolutions.title,
                 "pokemon_id": next_evolutions.id,
