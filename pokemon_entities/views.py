@@ -61,31 +61,27 @@ def show_all_pokemons(request):
 def show_pokemon(request, pokemon_id):
     pokemon = get_object_or_404(Pokemon, id=pokemon_id)
 
-    if pokemon.id == int(pokemon_id):
-        requested_pokemon = pokemon
+    pokemon_data = {
+        "title_ru": pokemon.title,
+        "title_en": pokemon.title_en,
+        "title_jp": pokemon.title_jp,
+        "description": pokemon.description,
+        "img_url": request.build_absolute_uri(get_pokemon_image_url(pokemon)),
+    }
 
-        pokemon_data = {
-            "title_ru": requested_pokemon.title,
-            "title_en": requested_pokemon.title_en,
-            "title_jp": requested_pokemon.title_jp,
-            "description": requested_pokemon.description,
-            "img_url": request.build_absolute_uri(get_pokemon_image_url(requested_pokemon)),
+    if pokemon.previous_evolution is not None:
+        pokemon_data["previous_evolution"] = {
+            "title_ru": pokemon.previous_evolution.title,
+            "pokemon_id": pokemon.previous_evolution.id,
+            "img_url": request.build_absolute_uri(get_pokemon_image_url(pokemon))
         }
-
-        if pokemon.previous_evolution is not None:
-            pokemon_data["previous_evolution"] = {
-                "title_ru": pokemon.previous_evolution.title,
-                "pokemon_id": pokemon.previous_evolution.id,
-                "img_url": request.build_absolute_uri(get_pokemon_image_url(pokemon))
-            }
-
-        if pokemon.next_evolutions.all():
-            next_evolutions = pokemon.next_evolutions.all().first()
-            pokemon_data["next_evolution"] = {
-                "title_ru": next_evolutions.title,
-                "pokemon_id": next_evolutions.id,
-                "img_url": request.build_absolute_uri(get_pokemon_image_url(next_evolutions))
-            }
+    next_evolutions = pokemon.next_evolutions.all().first()
+    if next_evolutions:
+        pokemon_data["next_evolution"] = {
+            "title_ru": next_evolutions.title,
+            "pokemon_id": next_evolutions.id,
+            "img_url": request.build_absolute_uri(get_pokemon_image_url(next_evolutions))
+        }
 
     time_now = localtime()
     pokemon_entities = PokemonEntity.objects.filter(appeared_at__lt=time_now,
@@ -104,7 +100,7 @@ def show_pokemon(request, pokemon_id):
 
 
 def get_pokemon_image_url(pokemon: Pokemon):
-    if pokemon.image:
-        return pokemon.image.url
-    else:
-        return None
+    if not pokemon.image:
+        return DEFAULT_IMAGE_URL
+
+    return pokemon.image.url
